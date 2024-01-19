@@ -24,7 +24,7 @@
         android:id="@+id/view_points_player1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:gravity="center"
         android:text="0"
         android:textSize="100sp"

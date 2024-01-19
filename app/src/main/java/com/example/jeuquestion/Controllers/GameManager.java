@@ -27,8 +27,8 @@ public class GameManager {
         Collections.shuffle(getQuestions());
     }
 
-//    public boolean getAnswer() {
-//        return dbHelper.getQuestions().;
-//    }
+    public boolean getAnswer(int index) {
+        return dbHelper.getAnswer(index);
+    }
 }
 

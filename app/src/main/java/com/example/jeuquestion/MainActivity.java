@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         BT_newPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,11 +43,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         ET_addPlayer1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -73,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         ET_addPlayer2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -106,5 +102,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }

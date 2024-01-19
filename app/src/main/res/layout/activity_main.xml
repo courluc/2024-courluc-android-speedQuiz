@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:hint="@string/edit_add_player"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/edit_add_player_2"
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/edit_add_player"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:inputType="text" />
     </LinearLayout>
 
     <RelativeLayout

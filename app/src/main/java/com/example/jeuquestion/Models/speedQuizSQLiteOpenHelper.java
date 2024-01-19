@@ -33,5 +33,8 @@ public class speedQuizSQLiteOpenHelper {
     public List<Question> getQuestions() {
         return questionsList;
     }
+    public boolean getAnswer(int index){
+        return questionsList.get(index).getReponse();
+    }
 }
 

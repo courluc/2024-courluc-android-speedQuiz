@@ -125,6 +125,7 @@ public class gameActivity extends AppCompatActivity {
             currentQuestion = questionList.get(indexQuestion).getQuestion();
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
+
             indexQuestion++;
         }else{
             TV_player1Question.setText(R.string.end_of_game);
