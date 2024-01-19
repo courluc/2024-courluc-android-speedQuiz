@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuestionGame</string>
+    <string name="new_player">NEW PLAYER</string>
+    <string name="new_game">NEW GAME</string>
+    <string name="edit_add_player">Add a player</string>
+    <string name="view_player_name">Player 1 name</string>
+    <string name="view_player_name2">Player 2 name</string>
+    <string name="view_player_question">Player 1 question</string>
+    <string name="view_player2_question">Player 2 question</string>
+    <string name="bt_restart">RESTART</string>
+    <string name="bt_menu">MENU</string>
+    <string name="end_of_game">Do you want to restart ?</string>
+</resources>

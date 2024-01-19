@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">JeuQuestion</string>
+    <string name="new_player">NOUVEAU JOUEUR</string>
+    <string name="new_game">NOUVELLE PARTIE</string>
+    <string name="edit_add_player">Ajouter un joueur</string>
+    <string name="view_player_name">Nom joueur 1</string>
+    <string name="view_player_name2">Nom joueur 2</string>
+    <string name="view_player_question">Question joueur 1</string>
+    <string name="view_player2_question">Question joueur 2</string>
+    <string name="bt_restart">REJOUER</string>
+    <string name="bt_menu">MENU</string>
+    <string name="end_of_game">Voulez vous recommencer ?</string>
+</resources>
