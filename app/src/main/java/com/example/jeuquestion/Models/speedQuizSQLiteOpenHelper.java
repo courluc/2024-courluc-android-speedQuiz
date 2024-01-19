@@ -1,5 +1,7 @@
 package com.example.jeuquestion.Models;
 
+import androidx.appcompat.view.ActionBarPolicy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class speedQuizSQLiteOpenHelper {
         questionsList.add(new Question("La glace est chaude ?", false));
         questionsList.add(new Question("Le Python est un langage de programmation ?", true));
         questionsList.add(new Question("La Lune est habitée ?", false));
+
     }
     public List<Question> getQuestions() {
         return questionsList;

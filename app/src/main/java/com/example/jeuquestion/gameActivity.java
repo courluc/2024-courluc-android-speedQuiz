@@ -68,8 +68,7 @@ public class gameActivity extends AppCompatActivity {
 
         //Mélange les questions et affiche la première
         GameManager.getInstance().shuffleQuestions();
-        nextQuestion();
-
+        displayQuestion();
         //Retourne a la page d'accueil lorsque le bouton menu est cliqué
         BT_menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +83,7 @@ public class gameActivity extends AppCompatActivity {
                 //Ajoute des points au joueur 1 et affiche la question suivante
                 player1Points++;
                 TV_player1Points.setText(String.valueOf(player1Points));
-                nextQuestion();
+                displayQuestion();
             }
         });
         BT_questionPlayer2.setOnClickListener(new View.OnClickListener() {
@@ -93,20 +92,21 @@ public class gameActivity extends AppCompatActivity {
                 //Ajoute des points au joueur 2 et affiche la question suivante
                 player2Points++;
                 TV_player2Points.setText(String.valueOf(player2Points));
-                nextQuestion();
+                displayQuestion();
             }
         });
         BT_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Réinitialise les points
-                player1Points *= 0;
-                player2Points *=0;
-                indexQuestion *=0;
+                player1Points = 0;
+                player2Points = 0;
+                GameManager.getInstance().setIndex(0);
+
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
                 //Affiche la première question
-                nextQuestion();
+                displayQuestion();
 
                 //Rend les boutons actifs et rend les boutons "menu" et "restart" invisible
                 BT_questionPlayer1.setEnabled(true);
@@ -118,16 +118,13 @@ public class gameActivity extends AppCompatActivity {
             }
         });
     }
-    public void nextQuestion(){
-        //Affiche la question actuelle dans les libellés
-        if (indexQuestion < questionList.size()){
-            currentQuestion = questionList.get(indexQuestion).getQuestion();
+
+    public void displayQuestion(){
+        if (!GameManager.getInstance().EndOfList()) {
+            String currentQuestion = GameManager.getInstance().nextQuestion();
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
-
-            indexQuestion++;
-
-        }else{
+        }else {
             TV_player1Question.setText(R.string.end_of_game);
             TV_player2Question.setText(R.string.end_of_game);
             //Désactive les boutons des joueurs
@@ -135,7 +132,6 @@ public class gameActivity extends AppCompatActivity {
             BT_questionPlayer2.setEnabled(false);
             //Affiche le layout contenant les boutons "menu" et "restart"
             RL_menuRestart.setVisibility(View.VISIBLE);
-
         }
     }
 }
