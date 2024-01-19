@@ -68,7 +68,7 @@ public class gameActivity extends AppCompatActivity {
 
         //Mélange les questions et affiche la première
         GameManager.getInstance().shuffleQuestions();
-        randomQuestions();
+        nextQuestion();
 
         //Retourne a la page d'accueil lorsque le bouton menu est cliqué
         BT_menu.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class gameActivity extends AppCompatActivity {
                 //Ajoute des points au joueur 1 et affiche la question suivante
                 player1Points++;
                 TV_player1Points.setText(String.valueOf(player1Points));
-                randomQuestions();
+                nextQuestion();
             }
         });
         BT_questionPlayer2.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class gameActivity extends AppCompatActivity {
                 //Ajoute des points au joueur 2 et affiche la question suivante
                 player2Points++;
                 TV_player2Points.setText(String.valueOf(player2Points));
-                randomQuestions();
+                nextQuestion();
             }
         });
         BT_restart.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class gameActivity extends AppCompatActivity {
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
                 //Affiche la première question
-                randomQuestions();
+                nextQuestion();
 
                 //Rend les boutons actifs et rend les boutons "menu" et "restart" invisible
                 BT_questionPlayer1.setEnabled(true);
@@ -118,20 +118,22 @@ public class gameActivity extends AppCompatActivity {
             }
         });
     }
-    public void randomQuestions(){
+    public void nextQuestion(){
         //Affiche la question actuelle dans les libellés
-        //Si la liste est entièrement parcourue, affiche les bouton "menu" et "restart"
         if (indexQuestion < questionList.size()){
             currentQuestion = questionList.get(indexQuestion).getQuestion();
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
 
             indexQuestion++;
+
         }else{
             TV_player1Question.setText(R.string.end_of_game);
             TV_player2Question.setText(R.string.end_of_game);
+            //Désactive les boutons des joueurs
             BT_questionPlayer1.setEnabled(false);
             BT_questionPlayer2.setEnabled(false);
+            //Affiche le layout contenant les boutons "menu" et "restart"
             RL_menuRestart.setVisibility(View.VISIBLE);
 
         }
