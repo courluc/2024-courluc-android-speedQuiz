@@ -1,37 +1,63 @@
 package com.example.jeuquestion.Controllers;
-import androidx.appcompat.view.ActionBarPolicy;
 
-import com.example.jeuquestion.Models.speedQuizSQLiteOpenHelper;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+//import android.os.Handler;
+
 import com.example.jeuquestion.Models.Question;
+import com.example.jeuquestion.Models.SpeedGameSqLite;
+import com.example.jeuquestion.Models.SpeedQuizSQLiteOpenHelper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameManager {
+
     private static GameManager instance;
-    private speedQuizSQLiteOpenHelper dbHelper;
+    public SpeedGameSqLite dbHelper;
     private int indexQuestion = 0;
-    private GameManager() {
-        dbHelper = new speedQuizSQLiteOpenHelper();
+    Context context;
+    public GameManager(Context context) {
+         dbHelper = new SpeedGameSqLite(context);
+        this.context = context;
     }
 
-    public static GameManager getInstance() {
+
+    public static GameManager getInstance(Context context) {
         if (instance == null) {
-            instance = new GameManager();
+            instance = new GameManager(context);
         }
         return instance;
     }
 
+    private ArrayList<Question> initQuestionList(Context context){
+        ArrayList<Question> listQuestion = new ArrayList<>();
+        SpeedQuizSQLiteOpenHelper helper = new SpeedQuizSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(true,"quiz",new String[]{"idQuiz","question","reponse"},null,null,null,null,"idquiz",null);
+
+        while(cursor.moveToNext()){
+            listQuestion.add(new Question(cursor));
+        }
+        cursor.close();
+        db.close();
+
+        return listQuestion;
+    }
+
     public ArrayList<Question> getQuestions() {
         //Retourne la liste de questions
-        return (ArrayList<Question>) dbHelper.getQuestions();
+        return initQuestionList(context);
     }
     public void shuffleQuestions() {
         //Mélange les questions
         Collections.shuffle(getQuestions());
     }
 
-    public boolean getAnswer(int index) {
-        return dbHelper.getAnswer(index);
+    public ArrayList<Question> getAnswer() {
+        return initQuestionList(context);
     }
 
     public void setIndex(int index) {
@@ -40,10 +66,11 @@ public class GameManager {
 
     public String nextQuestion() {
         indexQuestion++;
-        return getQuestions().get(indexQuestion-1).getQuestion();
+        return initQuestionList(context).get(indexQuestion-1).getIntitule();
     }
+
     public boolean EndOfList(){
-        return indexQuestion >= dbHelper.getQuestions().size();
+        return indexQuestion >= getQuestions().size();
     }
 
 }
