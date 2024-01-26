@@ -10,6 +10,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+
+import com.example.jeuquestion.Models.SpeedGameSqLite;
 import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText ET_addPlayer2;
     private String player1;
     private String player2;
-
 
 
     @Override

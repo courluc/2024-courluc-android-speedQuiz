@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jeuquestion.Controllers.GameManager;
 import com.example.jeuquestion.Models.Question;
+import com.example.jeuquestion.Models.SpeedGameSqLite;
 import com.google.android.material.button.MaterialButton;
 
 public class gameActivity extends AppCompatActivity {
@@ -33,12 +34,17 @@ public class gameActivity extends AppCompatActivity {
     public String player2Name;
     public int player1Points;
     public int player2Points;
+    public boolean appuyer = false;
     GameManager gameManager;
     public int indexQuestion = 0;
     public List<Question> questionList;
     private String currentQuestion;
+    private int delay = 2500;
     Handler handler;
     Runnable questionRunnable = null;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,7 @@ public class gameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
         //Affichage du nom des joueurs
         TV_player1Name.setText(player1Name);
         TV_player2Name.setText(player2Name);
@@ -91,8 +98,7 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
-               gameManager.nextQuestion();
-                TV_player1Points.setText(String.valueOf(player1Points));
+                addPlayerPoints(player1Points, TV_player1Points);
                 startQuestionIterative();
             }
         });
@@ -100,8 +106,7 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 2 et affiche la question suivante
-                player2Points++;
-                TV_player2Points.setText(String.valueOf(player2Points));
+                addPlayerPoints(player2Points, TV_player2Points);
                 startQuestionIterative();
             }
         });
@@ -116,7 +121,8 @@ public class gameActivity extends AppCompatActivity {
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
                 //Affiche la première question
-               startQuestionIterative();
+                gameManager.shuffleQuestions();
+                startQuestionIterative();
 
                 //Rend les boutons actifs et rend les boutons "menu" et "restart" invisible
                 BT_questionPlayer1.setEnabled(true);
@@ -124,7 +130,6 @@ public class gameActivity extends AppCompatActivity {
                 RL_menuRestart.setVisibility(View.INVISIBLE);
                 //Mélange les questions
 
-                gameManager.shuffleQuestions();
 
             }
         });
@@ -147,15 +152,16 @@ public class gameActivity extends AppCompatActivity {
                     //Affiche le layout contenant les boutons "menu" et "restart"
                     RL_menuRestart.setVisibility(View.VISIBLE);
                 }else {
-                    //code pour poser une question
-                    String currentQuestion = gameManager.nextQuestion();
-                    TV_player1Question.setText(currentQuestion);
-                    TV_player2Question.setText(currentQuestion);
-                    handler.postDelayed(this, 2000);
+                        //code pour poser une question
+                        String currentQuestion = gameManager.nextQuestion();
+                        TV_player1Question.setText(currentQuestion);
+                        TV_player2Question.setText(currentQuestion);
+                        handler.postDelayed(this, delay);
+
                 }
             }
         };
-        handler.postDelayed(questionRunnable, 1000);
+        handler.postDelayed(questionRunnable, delay);
     }
 
 
@@ -173,5 +179,18 @@ public class gameActivity extends AppCompatActivity {
             //Affiche le layout contenant les boutons "menu" et "restart"
             RL_menuRestart.setVisibility(View.VISIBLE);
         }
+    }
+    public void addPlayerPoints(int playerPoints, TextView TV_Player){
+        if (gameManager.getAnswer() == 1) {
+            playerPoints++;
+        }else {
+            playerPoints--;
+        }
+        TV_Player.setText(String.valueOf(playerPoints));
+
+       // if (handler != null && questionRunnable != null) {
+         //   handler.removeCallbacks(questionRunnable);
+
+
     }
 }

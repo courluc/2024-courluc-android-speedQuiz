@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.jeuquestion.Models.Question;
 import com.example.jeuquestion.Models.SpeedGameSqLite;
-import com.example.jeuquestion.Models.SpeedQuizSQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +32,7 @@ public class GameManager {
 
     private ArrayList<Question> initQuestionList(Context context){
         ArrayList<Question> listQuestion = new ArrayList<>();
-        SpeedQuizSQLiteOpenHelper helper = new SpeedQuizSQLiteOpenHelper(context);
+        SpeedGameSqLite helper = new SpeedGameSqLite(context);
         SQLiteDatabase db = helper.getReadableDatabase();
 
         Cursor cursor = db.query(true,"quiz",new String[]{"idQuiz","question","reponse"},null,null,null,null,"idquiz",null);
@@ -56,8 +55,8 @@ public class GameManager {
         Collections.shuffle(getQuestions());
     }
 
-    public ArrayList<Question> getAnswer() {
-        return initQuestionList(context);
+    public int getAnswer() {
+        return getQuestions().get(indexQuestion).getReponses();
     }
 
     public void setIndex(int index) {
