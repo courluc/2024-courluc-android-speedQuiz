@@ -56,7 +56,7 @@ public class GameManager {
     }
 
     public int getAnswer() {
-        return getQuestions().get(indexQuestion).getReponses();
+        return getQuestions().get(indexQuestion-1).getReponses();
     }
 
     public void setIndex(int index) {

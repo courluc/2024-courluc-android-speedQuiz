@@ -39,10 +39,11 @@ public class gameActivity extends AppCompatActivity {
     public int indexQuestion = 0;
     public List<Question> questionList;
     private String currentQuestion;
-    private int delay = 2500;
+    private final int delay = 5000;
     Handler handler;
     Runnable questionRunnable = null;
-
+    private int playerPoints;
+    private TextView tvPlayer;
 
 
     @Override
@@ -83,7 +84,7 @@ public class gameActivity extends AppCompatActivity {
         TV_player2Name.setText(player2Name);
 
         //Mélange les questions et affiche la première
-       gameManager.shuffleQuestions();
+        gameManager.shuffleQuestions();
         startQuestionIterative();
         //Retourne a la page d'accueil lorsque le bouton menu est cliqué
         BT_menu.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +99,7 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
-                addPlayerPoints(player1Points, TV_player1Points);
+                player1Points += addPlayerPoints(player1Points, TV_player1Points);
                 startQuestionIterative();
             }
         });
@@ -106,7 +107,7 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 2 et affiche la question suivante
-                addPlayerPoints(player2Points, TV_player2Points);
+               player2Points += addPlayerPoints(player2Points, TV_player2Points);
                 startQuestionIterative();
             }
         });
@@ -114,6 +115,7 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Réinitialise les points
+                handler = null;
                 player1Points = 0;
                 player2Points = 0;
                 gameManager.setIndex(0);
@@ -135,33 +137,35 @@ public class gameActivity extends AppCompatActivity {
         });
     }
     private void startQuestionIterative(){
-        handler = new Handler();
+        if (handler == null) {
+            handler = new Handler();
 
-        questionRunnable = new Runnable() {
-            @Override
-            public void run() {
+            questionRunnable = new Runnable() {
+                @Override
+                public void run() {
 
-                if(gameManager.EndOfList()){
-                    //code de fin de partie
-                    handler.removeCallbacks(this);
-                    TV_player1Question.setText(R.string.end_of_game);
-                    TV_player2Question.setText(R.string.end_of_game);
-                    //Désactive les boutons des joueurs
-                    BT_questionPlayer1.setEnabled(false);
-                    BT_questionPlayer2.setEnabled(false);
-                    //Affiche le layout contenant les boutons "menu" et "restart"
-                    RL_menuRestart.setVisibility(View.VISIBLE);
-                }else {
+                    if (gameManager.EndOfList()) {
+                        //code de fin de partie
+                        handler.removeCallbacks(this);
+                        TV_player1Question.setText(R.string.end_of_game);
+                        TV_player2Question.setText(R.string.end_of_game);
+                        //Désactive les boutons des joueurs
+                        BT_questionPlayer1.setEnabled(false);
+                        BT_questionPlayer2.setEnabled(false);
+                        //Affiche le layout contenant les boutons "menu" et "restart"
+                        RL_menuRestart.setVisibility(View.VISIBLE);
+                    } else {
                         //code pour poser une question
                         String currentQuestion = gameManager.nextQuestion();
                         TV_player1Question.setText(currentQuestion);
                         TV_player2Question.setText(currentQuestion);
                         handler.postDelayed(this, delay);
 
+                    }
                 }
-            }
-        };
-        handler.postDelayed(questionRunnable, delay);
+            };
+            handler.postDelayed(questionRunnable, delay);
+        }
     }
 
 
@@ -180,17 +184,17 @@ public class gameActivity extends AppCompatActivity {
             RL_menuRestart.setVisibility(View.VISIBLE);
         }
     }
-    public void addPlayerPoints(int playerPoints, TextView TV_Player){
+    public int addPlayerPoints(int playerPoints, TextView TV_Player){
+        this.playerPoints = playerPoints;
+        tvPlayer = TV_Player;
         if (gameManager.getAnswer() == 1) {
-            playerPoints++;
+            playerPoints+=1;
         }else {
             playerPoints--;
         }
-        TV_Player.setText(String.valueOf(playerPoints));
-
-       // if (handler != null && questionRunnable != null) {
-         //   handler.removeCallbacks(questionRunnable);
-
-
+        tvPlayer.setText(String.valueOf(playerPoints));
+        return playerPoints;
+        // if (handler != null && questionRunnable != null) {
+        //   handler.removeCallbacks(questionRunnable);
     }
 }
