@@ -30,6 +30,11 @@ public class GameManager {
         return instance;
     }
 
+    /**
+     * Récupere la liste de questions dans la base de données
+     * @param context context
+     * @return la liste de question
+     */
     private ArrayList<Question> initQuestionList(Context context){
         ArrayList<Question> listQuestion = new ArrayList<>();
         SpeedGameSqLite helper = new SpeedGameSqLite(context);
@@ -45,27 +50,54 @@ public class GameManager {
         return listQuestion;
     }
 
+    /**
+     * Reprend la liste de questions
+     * @return la liste de questions
+     */
     public ArrayList<Question> getQuestions() {
         return initQuestionList(context);
     }
+
+    /**
+     * Mélange une liste de questions
+     * @param questionList liste de questions à mélanger
+     */
     public void shuffleQuestions(ArrayList<Question> questionList) {
         Collections.shuffle(questionList);
         //Mélange les questions
     }
 
+    /**
+     *Retrouve la réponse d'une question
+     * @param questionList liste de questions
+     * @return la réponse
+     */
     public int getAnswer(ArrayList<Question> questionList) {
         return questionList.get(indexQuestion-1).getReponses();
     }
 
+    /**
+     * Remet l'index à une valeur donnée
+     * @param index index donné
+     */
     public void setIndex(int index) {
         this.indexQuestion = index;
     }
 
+    /**
+     * Récupere une question par rapport à un index
+     * @param questionList liste de questions
+     * @return la question à l'index en cours
+     */
     public String nextQuestion(ArrayList<Question> questionList) {
         indexQuestion++;
         return questionList.get(indexQuestion-1).getIntitule();
     }
 
+    /**
+     * Vérifie si l'on est à la fin de la liste
+     * @return retourne si oui ou non nous sommes à la fin de la liste
+     */
     public boolean EndOfList(){
         return indexQuestion >= getQuestions().size();
     }

@@ -127,6 +127,10 @@ public class gameActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Affiche une nouvelle question toutes les 5 secondes
+     */
     private void startQuestionIterative(){
         if (handler == null) {
             handler = new Handler();
@@ -158,7 +162,9 @@ public class gameActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Affiche la question suivante
+     */
     public void displayQuestion(){
         if (!gameManager.EndOfList()) {
             String currentQuestion = gameManager.nextQuestion(questionList);
@@ -177,6 +183,13 @@ public class gameActivity extends AppCompatActivity {
         handler.removeCallbacks(questionRunnable);
         handler.postDelayed(questionRunnable, delay);
     }
+
+    /**
+     * Ajoute des points au joueur si la réponse est juste et en retire si elle est fausse
+     * @param playerPoints point du joueur
+     * @param TV_Player text view du joueur
+     * @return le nombre du points du joueur mis à jour
+     */
     public int addPlayerPoints(int playerPoints, TextView TV_Player){
         if (gameManager.getAnswer(questionList) == 1) {
             playerPoints++;
@@ -185,8 +198,5 @@ public class gameActivity extends AppCompatActivity {
         }
         TV_Player.setText(String.valueOf(playerPoints));
         return playerPoints;
-        // if (handler != null && questionRunnable != null) {
-        //   handler.removeCallbacks(questionRunnable);
     }
-
 }
