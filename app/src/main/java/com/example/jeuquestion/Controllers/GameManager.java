@@ -18,7 +18,7 @@ public class GameManager {
     private int indexQuestion = 0;
     Context context;
     public GameManager(Context context) {
-         dbHelper = new SpeedGameSqLite(context);
+        dbHelper = new SpeedGameSqLite(context);
         this.context = context;
     }
 
@@ -42,30 +42,28 @@ public class GameManager {
         }
         cursor.close();
         db.close();
-
         return listQuestion;
     }
 
     public ArrayList<Question> getQuestions() {
-        //Retourne la liste de questions
         return initQuestionList(context);
     }
-    public void shuffleQuestions() {
+    public void shuffleQuestions(ArrayList<Question> questionList) {
+        Collections.shuffle(questionList);
         //Mélange les questions
-        Collections.shuffle(getQuestions());
     }
 
-    public int getAnswer() {
-        return getQuestions().get(indexQuestion-1).getReponses();
+    public int getAnswer(ArrayList<Question> questionList) {
+        return questionList.get(indexQuestion-1).getReponses();
     }
 
     public void setIndex(int index) {
         this.indexQuestion = index;
     }
 
-    public String nextQuestion() {
+    public String nextQuestion(ArrayList<Question> questionList) {
         indexQuestion++;
-        return initQuestionList(context).get(indexQuestion-1).getIntitule();
+        return questionList.get(indexQuestion-1).getIntitule();
     }
 
     public boolean EndOfList(){

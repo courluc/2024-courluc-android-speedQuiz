@@ -6,16 +6,13 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ConcurrentModificationException;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jeuquestion.Controllers.GameManager;
 import com.example.jeuquestion.Models.Question;
-import com.example.jeuquestion.Models.SpeedGameSqLite;
 import com.google.android.material.button.MaterialButton;
 
 public class gameActivity extends AppCompatActivity {
@@ -34,16 +31,11 @@ public class gameActivity extends AppCompatActivity {
     public String player2Name;
     public int player1Points;
     public int player2Points;
-    public boolean appuyer = false;
     GameManager gameManager;
-    public int indexQuestion = 0;
-    public List<Question> questionList;
-    private String currentQuestion;
-    private final int delay = 5000;
+    public ArrayList<Question> questionList;
+    private final long delay = 5000;
     Handler handler;
     Runnable questionRunnable = null;
-    private int playerPoints;
-    private TextView tvPlayer;
 
 
     @Override
@@ -77,38 +69,37 @@ public class gameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
-        //Affichage du nom des joueurs
+        //Chaffinch du nom des joueurs
         TV_player1Name.setText(player1Name);
         TV_player2Name.setText(player2Name);
 
         //Mélange les questions et affiche la première
-        gameManager.shuffleQuestions();
+        gameManager.shuffleQuestions(questionList);
         startQuestionIterative();
-        //Retourne a la page d'accueil lorsque le bouton menu est cliqué
+        gameManager = new GameManager(this);
+
+
         BT_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Retourne a la page d'accueil lorsque le bouton menu est cliqué
                 finish();
             }
         });
-        gameManager = new GameManager(this);
-
         BT_questionPlayer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
-                player1Points += addPlayerPoints(player1Points, TV_player1Points);
-                startQuestionIterative();
+                player1Points = addPlayerPoints(player1Points, TV_player1Points);
+                displayQuestion();
             }
         });
         BT_questionPlayer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 2 et affiche la question suivante
-               player2Points += addPlayerPoints(player2Points, TV_player2Points);
-                startQuestionIterative();
+                player2Points = addPlayerPoints(player2Points, TV_player2Points);
+                displayQuestion();
             }
         });
         BT_restart.setOnClickListener(new View.OnClickListener() {
@@ -123,8 +114,9 @@ public class gameActivity extends AppCompatActivity {
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
                 //Affiche la première question
-                gameManager.shuffleQuestions();
+                gameManager.shuffleQuestions(questionList);
                 startQuestionIterative();
+                displayQuestion();
 
                 //Rend les boutons actifs et rend les boutons "menu" et "restart" invisible
                 BT_questionPlayer1.setEnabled(true);
@@ -132,48 +124,47 @@ public class gameActivity extends AppCompatActivity {
                 RL_menuRestart.setVisibility(View.INVISIBLE);
                 //Mélange les questions
 
-
             }
         });
     }
     private void startQuestionIterative(){
         if (handler == null) {
             handler = new Handler();
-
-            questionRunnable = new Runnable() {
-                @Override
-                public void run() {
-
-                    if (gameManager.EndOfList()) {
-                        //code de fin de partie
-                        handler.removeCallbacks(this);
-                        TV_player1Question.setText(R.string.end_of_game);
-                        TV_player2Question.setText(R.string.end_of_game);
-                        //Désactive les boutons des joueurs
-                        BT_questionPlayer1.setEnabled(false);
-                        BT_questionPlayer2.setEnabled(false);
-                        //Affiche le layout contenant les boutons "menu" et "restart"
-                        RL_menuRestart.setVisibility(View.VISIBLE);
-                    } else {
-                        //code pour poser une question
-                        String currentQuestion = gameManager.nextQuestion();
-                        TV_player1Question.setText(currentQuestion);
-                        TV_player2Question.setText(currentQuestion);
-                        handler.postDelayed(this, delay);
-
-                    }
-                }
-            };
-            handler.postDelayed(questionRunnable, delay);
         }
+        questionRunnable = new Runnable() {
+            @Override
+            public void run() {
+
+                if (gameManager.EndOfList()) {
+                    //code de fin de partie
+                    handler.removeCallbacks(this);
+                    TV_player1Question.setText(R.string.end_of_game);
+                    TV_player2Question.setText(R.string.end_of_game);
+                    //Désactive les boutons des joueurs
+                    BT_questionPlayer1.setEnabled(false);
+                    BT_questionPlayer2.setEnabled(false);
+                    //Affiche le layout contenant les boutons "menu" et "restart"
+                    RL_menuRestart.setVisibility(View.VISIBLE);
+                } else {
+                    //code pour poser une question
+                    String currentQuestion = gameManager.nextQuestion(questionList);
+                    TV_player1Question.setText(currentQuestion);
+                    TV_player2Question.setText(currentQuestion);
+                    handler.postDelayed(this, delay);
+                }
+            }
+        };
+        handler.postDelayed(questionRunnable, delay);
+
     }
 
 
     public void displayQuestion(){
         if (!gameManager.EndOfList()) {
-            String currentQuestion = gameManager.nextQuestion();
+            String currentQuestion = gameManager.nextQuestion(questionList);
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
+
         }else {
             TV_player1Question.setText(R.string.end_of_game);
             TV_player2Question.setText(R.string.end_of_game);
@@ -183,18 +174,19 @@ public class gameActivity extends AppCompatActivity {
             //Affiche le layout contenant les boutons "menu" et "restart"
             RL_menuRestart.setVisibility(View.VISIBLE);
         }
+        handler.removeCallbacks(questionRunnable);
+        handler.postDelayed(questionRunnable, delay);
     }
     public int addPlayerPoints(int playerPoints, TextView TV_Player){
-        this.playerPoints = playerPoints;
-        tvPlayer = TV_Player;
-        if (gameManager.getAnswer() == 1) {
-            playerPoints+=1;
-        }else {
+        if (gameManager.getAnswer(questionList) == 1) {
+            playerPoints++;
+        }else if (playerPoints > 0){
             playerPoints--;
         }
-        tvPlayer.setText(String.valueOf(playerPoints));
+        TV_Player.setText(String.valueOf(playerPoints));
         return playerPoints;
         // if (handler != null && questionRunnable != null) {
         //   handler.removeCallbacks(questionRunnable);
     }
+
 }
