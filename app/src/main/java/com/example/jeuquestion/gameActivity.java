@@ -32,6 +32,7 @@ public class gameActivity extends AppCompatActivity {
     public int player1Points;
     public int player2Points;
     public boolean appuyer = false;
+    public boolean firstClick = true;
     GameManager gameManager;
     public ArrayList<Question> questionList;
     private final long delay = 5000;
@@ -90,7 +91,9 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
-                player1Points = addPlayerPoints(player1Points, TV_player1Points);
+                if (!firstClick)
+                    player1Points = addPlayerPoints(player1Points, TV_player1Points);
+                firstClick = false;
                 appuyer = true;
                 displayQuestion();
             }
@@ -98,8 +101,11 @@ public class gameActivity extends AppCompatActivity {
         BT_questionPlayer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //Ajoute des points au joueur 2 et affiche la question suivante
-                player2Points = addPlayerPoints(player2Points, TV_player2Points);
+                if(!firstClick)
+                    player2Points = addPlayerPoints(player2Points, TV_player2Points);
+                firstClick = false;
                 appuyer = true;
                 displayQuestion();
             }
@@ -139,7 +145,6 @@ public class gameActivity extends AppCompatActivity {
         questionRunnable = new Runnable() {
             @Override
             public void run() {
-
                 if (gameManager.EndOfList()) {
                     addPoints();
                     //code de fin de partie
@@ -158,7 +163,6 @@ public class gameActivity extends AppCompatActivity {
                     String currentQuestion = gameManager.nextQuestion(questionList);
                     TV_player1Question.setText(currentQuestion);
                     TV_player2Question.setText(currentQuestion);
-
                     handler.postDelayed(this, delay);
                 }
             }
@@ -209,7 +213,7 @@ public class gameActivity extends AppCompatActivity {
      * Ajoute ou retire des points si personne n'a appuyé sur le bouton
      */
     public void addPoints(){
-        if (gameManager.getIndexQuestion() > 0 && !appuyer) {
+        if (gameManager.getIndexQuestion() > 0 && !appuyer && gameManager.getIndexQuestion() <= questionList.size()) {
             if (gameManager.getAnswer(questionList) == 0) {
                 player1Points++;
                 player2Points++;

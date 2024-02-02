@@ -84,6 +84,10 @@ public class GameManager {
         this.indexQuestion = index;
     }
 
+    /**
+     *Renvoie l'index de la question en cours
+     * @return index de la question en cours
+     */
     public int getIndexQuestion(){
         return indexQuestion;
     }
