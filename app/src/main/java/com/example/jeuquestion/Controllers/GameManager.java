@@ -84,6 +84,10 @@ public class GameManager {
         this.indexQuestion = index;
     }
 
+    public int getIndexQuestion(){
+        return indexQuestion;
+    }
+
     /**
      * Récupere une question par rapport à un index
      * @param questionList liste de questions

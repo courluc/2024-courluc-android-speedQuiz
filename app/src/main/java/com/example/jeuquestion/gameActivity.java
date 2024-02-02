@@ -31,6 +31,7 @@ public class gameActivity extends AppCompatActivity {
     public String player2Name;
     public int player1Points;
     public int player2Points;
+    public boolean appuyer = false;
     GameManager gameManager;
     public ArrayList<Question> questionList;
     private final long delay = 5000;
@@ -78,7 +79,6 @@ public class gameActivity extends AppCompatActivity {
         startQuestionIterative();
         gameManager = new GameManager(this);
 
-
         BT_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +91,7 @@ public class gameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
                 player1Points = addPlayerPoints(player1Points, TV_player1Points);
+                appuyer = true;
                 displayQuestion();
             }
         });
@@ -99,6 +100,7 @@ public class gameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Ajoute des points au joueur 2 et affiche la question suivante
                 player2Points = addPlayerPoints(player2Points, TV_player2Points);
+                appuyer = true;
                 displayQuestion();
             }
         });
@@ -113,6 +115,7 @@ public class gameActivity extends AppCompatActivity {
 
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
+
                 //Affiche la première question
                 gameManager.shuffleQuestions(questionList);
                 startQuestionIterative();
@@ -122,8 +125,6 @@ public class gameActivity extends AppCompatActivity {
                 BT_questionPlayer1.setEnabled(true);
                 BT_questionPlayer2.setEnabled(true);
                 RL_menuRestart.setVisibility(View.INVISIBLE);
-                //Mélange les questions
-
             }
         });
     }
@@ -140,6 +141,7 @@ public class gameActivity extends AppCompatActivity {
             public void run() {
 
                 if (gameManager.EndOfList()) {
+                    addPoints();
                     //code de fin de partie
                     handler.removeCallbacks(this);
                     TV_player1Question.setText(R.string.end_of_game);
@@ -151,21 +153,24 @@ public class gameActivity extends AppCompatActivity {
                     RL_menuRestart.setVisibility(View.VISIBLE);
                 } else {
                     //code pour poser une question
+                    addPoints();
+                    appuyer = false;
                     String currentQuestion = gameManager.nextQuestion(questionList);
                     TV_player1Question.setText(currentQuestion);
                     TV_player2Question.setText(currentQuestion);
+
                     handler.postDelayed(this, delay);
                 }
             }
         };
         handler.postDelayed(questionRunnable, delay);
-
     }
 
     /**
-     * Affiche la question suivante
+     * Affiche la question suivante si l'on est pas à la fin de la liste
      */
     public void displayQuestion(){
+        appuyer = false;
         if (!gameManager.EndOfList()) {
             String currentQuestion = gameManager.nextQuestion(questionList);
             TV_player1Question.setText(currentQuestion);
@@ -182,8 +187,8 @@ public class gameActivity extends AppCompatActivity {
         }
         handler.removeCallbacks(questionRunnable);
         handler.postDelayed(questionRunnable, delay);
-    }
 
+    }
     /**
      * Ajoute des points au joueur si la réponse est juste et en retire si elle est fausse
      * @param playerPoints point du joueur
@@ -198,5 +203,22 @@ public class gameActivity extends AppCompatActivity {
         }
         TV_Player.setText(String.valueOf(playerPoints));
         return playerPoints;
+    }
+
+    /**
+     * Ajoute ou retire des points si personne n'a appuyé sur le bouton
+     */
+    public void addPoints(){
+        if (gameManager.getIndexQuestion() > 0 && !appuyer) {
+            if (gameManager.getAnswer(questionList) == 0) {
+                player1Points++;
+                player2Points++;
+            } else if (player2Points > 0 && player1Points > 0) {
+                player1Points--;
+                player2Points--;
+            }
+        }
+        TV_player1Points.setText(String.valueOf(player1Points));
+        TV_player2Points.setText(String.valueOf(player2Points));
     }
 }
