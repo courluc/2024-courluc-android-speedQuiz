@@ -12,22 +12,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameManager {
-
-    private static GameManager instance;
     public SpeedGameSqLite dbHelper;
     private int indexQuestion = 0;
     Context context;
     public GameManager(Context context) {
         dbHelper = new SpeedGameSqLite(context);
         this.context = context;
-    }
-
-
-    public static GameManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new GameManager(context);
-        }
-        return instance;
     }
 
     /**
@@ -73,7 +63,7 @@ public class GameManager {
      * @return la réponse
      */
     public int getAnswer(ArrayList<Question> questionList) {
-        return questionList.get(indexQuestion-1).getReponses();
+        return questionList.get(indexQuestion-1).getResult();
     }
 
     /**
@@ -99,7 +89,7 @@ public class GameManager {
      */
     public String nextQuestion(ArrayList<Question> questionList) {
         indexQuestion++;
-        return questionList.get(indexQuestion-1).getIntitule();
+        return questionList.get(indexQuestion-1).getSentence();
     }
 
     /**

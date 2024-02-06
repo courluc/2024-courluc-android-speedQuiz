@@ -31,7 +31,7 @@ public class gameActivity extends AppCompatActivity {
     public String player2Name;
     public int player1Points;
     public int player2Points;
-    public boolean appuyer = false;
+    public boolean buttonPressed = false;
     public boolean firstClick = true;
     GameManager gameManager;
     public ArrayList<Question> questionList;
@@ -91,10 +91,11 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ajoute des points au joueur 1 et affiche la question suivante
-                if (!firstClick)
+                if (!firstClick) {
                     player1Points = addPlayerPoints(player1Points, TV_player1Points);
+                    buttonPressed = true;
+                }
                 firstClick = false;
-                appuyer = true;
                 displayQuestion();
             }
         });
@@ -103,10 +104,11 @@ public class gameActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Ajoute des points au joueur 2 et affiche la question suivante
-                if(!firstClick)
+                if (!firstClick){
                     player2Points = addPlayerPoints(player2Points, TV_player2Points);
+                    buttonPressed = true;
+                }
                 firstClick = false;
-                appuyer = true;
                 displayQuestion();
             }
         });
@@ -114,7 +116,6 @@ public class gameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Réinitialise les points
-                handler = null;
                 player1Points = 0;
                 player2Points = 0;
                 gameManager.setIndex(0);
@@ -124,7 +125,6 @@ public class gameActivity extends AppCompatActivity {
 
                 //Affiche la première question
                 gameManager.shuffleQuestions(questionList);
-                startQuestionIterative();
                 displayQuestion();
 
                 //Rend les boutons actifs et rend les boutons "menu" et "restart" invisible
@@ -159,10 +159,11 @@ public class gameActivity extends AppCompatActivity {
                 } else {
                     //code pour poser une question
                     addPoints();
-                    appuyer = false;
+                    buttonPressed = false;
                     String currentQuestion = gameManager.nextQuestion(questionList);
                     TV_player1Question.setText(currentQuestion);
                     TV_player2Question.setText(currentQuestion);
+                    firstClick = false;
                     handler.postDelayed(this, delay);
                 }
             }
@@ -174,7 +175,7 @@ public class gameActivity extends AppCompatActivity {
      * Affiche la question suivante si l'on est pas à la fin de la liste
      */
     public void displayQuestion(){
-        appuyer = false;
+        buttonPressed = false;
         if (!gameManager.EndOfList()) {
             String currentQuestion = gameManager.nextQuestion(questionList);
             TV_player1Question.setText(currentQuestion);
@@ -213,7 +214,11 @@ public class gameActivity extends AppCompatActivity {
      * Ajoute ou retire des points si personne n'a appuyé sur le bouton
      */
     public void addPoints(){
-        if (gameManager.getIndexQuestion() > 0 && !appuyer && gameManager.getIndexQuestion() <= questionList.size()) {
+        //Test si l'index de la question est correct et si le bouton à été appuyé
+        if (gameManager.getIndexQuestion() > 0 && !buttonPressed &&
+            gameManager.getIndexQuestion() <= questionList.size()) {
+
+            //Vérification de la réponse
             if (gameManager.getAnswer(questionList) == 0) {
                 player1Points++;
                 player2Points++;

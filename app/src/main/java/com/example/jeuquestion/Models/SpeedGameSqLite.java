@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-import androidx.core.database.sqlite.SQLiteDatabaseKt;
 public class SpeedGameSqLite extends SQLiteOpenHelper {
 
     static String DB_NAME = "SpeedGame.db";
