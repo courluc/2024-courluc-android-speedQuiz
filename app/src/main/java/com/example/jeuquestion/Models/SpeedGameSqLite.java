@@ -9,7 +9,6 @@ public class SpeedGameSqLite extends SQLiteOpenHelper {
     static String DB_NAME = "SpeedGame.db";
     static int DB_VERSION = 1;
 
-
     public SpeedGameSqLite(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -33,7 +32,5 @@ public class SpeedGameSqLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
-
 }

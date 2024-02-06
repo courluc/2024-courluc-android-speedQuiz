@@ -3,11 +3,8 @@ package com.example.jeuquestion.Controllers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-//import android.os.Handler;
-
 import com.example.jeuquestion.Models.Question;
 import com.example.jeuquestion.Models.SpeedGameSqLite;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

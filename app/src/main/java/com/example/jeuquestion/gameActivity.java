@@ -5,12 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.jeuquestion.Controllers.GameManager;
 import com.example.jeuquestion.Models.Question;
 import com.google.android.material.button.MaterialButton;
@@ -39,13 +35,10 @@ public class gameActivity extends AppCompatActivity {
     Handler handler;
     Runnable questionRunnable = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
-
-        //Récupération des questions
 
         //Initialisation des objets présent sur la page
         BT_questionPlayer1 = findViewById(R.id.bt_player1_question);
@@ -60,7 +53,7 @@ public class gameActivity extends AppCompatActivity {
         TV_player2Question = findViewById(R.id.text_view_player2_static);
         RL_menuRestart = findViewById(R.id.relativeLayout);
 
-        //Récupère l'instance crée à la page d'accueil
+        //Récupération de l'instance crée à la page d'accueil
         Intent gameActivity = getIntent();
         player1Name = gameActivity.getStringExtra("player1Name");
         player2Name = gameActivity.getStringExtra("player2Name");
@@ -71,7 +64,7 @@ public class gameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Chaffinch du nom des joueurs
+        //Affichage du nom des joueurs
         TV_player1Name.setText(player1Name);
         TV_player2Name.setText(player2Name);
 
@@ -115,7 +108,8 @@ public class gameActivity extends AppCompatActivity {
         BT_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Réinitialise les points
+                //Réinitialisation des points
+                buttonPressed = false;
                 player1Points = 0;
                 player2Points = 0;
                 gameManager.setIndex(0);
@@ -123,7 +117,7 @@ public class gameActivity extends AppCompatActivity {
                 TV_player1Points.setText(String.valueOf(player1Points));
                 TV_player2Points.setText(String.valueOf(player2Points));
 
-                //Affiche la première question
+                //Affichage de la première question
                 gameManager.shuffleQuestions(questionList);
                 displayQuestion();
 
@@ -175,11 +169,11 @@ public class gameActivity extends AppCompatActivity {
      * Affiche la question suivante si l'on est pas à la fin de la liste
      */
     public void displayQuestion(){
-        buttonPressed = false;
         if (!gameManager.EndOfList()) {
             String currentQuestion = gameManager.nextQuestion(questionList);
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
+            buttonPressed = false;
 
         }else {
             TV_player1Question.setText(R.string.end_of_game);
@@ -196,7 +190,7 @@ public class gameActivity extends AppCompatActivity {
     }
     /**
      * Ajoute des points au joueur si la réponse est juste et en retire si elle est fausse
-     * @param playerPoints point du joueur
+     * @param playerPoints points du joueur
      * @param TV_Player text view du joueur
      * @return le nombre du points du joueur mis à jour
      */
