@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton BT_newGame;
     private EditText ET_addPlayer1;
     private EditText ET_addPlayer2;
+    private ImageView IV_menu;
     private String player1;
     private String player2;
+    private View RL_parametres;
 
 
     @Override
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         BT_newGame = findViewById(R.id.btn_new_game);
         ET_addPlayer1 = findViewById(R.id.edit_add_player_1);
         ET_addPlayer2 = findViewById(R.id.edit_add_player_2);
+        IV_menu = findViewById(R.id.menu_icon);
+        RL_parametres = findViewById(R.id.relativeLayoutmenu);
     }
 
     @Override
@@ -85,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     BT_newGame.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+        IV_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RL_parametres.setVisibility(View.VISIBLE);
             }
         });
 

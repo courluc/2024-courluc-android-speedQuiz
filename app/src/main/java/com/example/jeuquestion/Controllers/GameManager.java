@@ -50,8 +50,8 @@ public class GameManager {
      * @param questionList liste de questions à mélanger
      */
     public void shuffleQuestions(ArrayList<Question> questionList) {
-        Collections.shuffle(questionList);
         //Mélange les questions
+        Collections.shuffle(questionList);
     }
 
     /**
