@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView IV_menu;
     private String player1;
     private String player2;
-    private View RL_parametres;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +29,9 @@ public class MainActivity extends AppCompatActivity {
         ET_addPlayer1 = findViewById(R.id.edit_add_player_1);
         ET_addPlayer2 = findViewById(R.id.edit_add_player_2);
         IV_menu = findViewById(R.id.menu_icon);
-        RL_parametres = findViewById(R.id.relativeLayoutmenu);
     }
 
-    @Override
+     @Override
     protected void onStart() {
         super.onStart();
         BT_newPlayer.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         IV_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RL_parametres.setVisibility(View.VISIBLE);
             }
         });
 
