@@ -1,19 +1,19 @@
 package com.example.jeuquestion.Models;
 
+import android.database.Cursor;
 public class Question {
-    private String question;
-    private boolean reponse; // true pour "oui", false pour "non"
 
-    public Question(String question, boolean reponse) {
-        this.question = question;
-        this.reponse = reponse;
-    }
-    public String getQuestion() {
-        return question;
-    }
+    private String sentence;
+    private int result;
 
-    public boolean getReponse() {
-        return reponse;
+    public Question(Cursor cursor) {
+        sentence = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+        result = cursor.getInt(cursor.getColumnIndexOrThrow("reponse"));
+    }
+    public String getSentence() { return sentence; }
+
+    public int getResult() {
+        return result;
     }
 
 
