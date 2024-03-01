@@ -11,4 +11,15 @@
     <string name="bt_restart">RESTART</string>
     <string name="bt_menu">MENU</string>
     <string name="end_of_game">Do you want to restart ?</string>
+    <string name="fermeture_param">Cross to close the page</string>
+    <string name="add_question">ADD A QUESTION</string>
+    <string name="answer">Answer</string>
+    <string name="answer_true">True</string>
+    <string name="answer_false">False</string>
+    <string name="confirm">Confirm</string>
+    <string name="change_delay">Change the delay between questions (in seconds)</string>
+    <string name="new_delay">New delay</string>
+    <string name="settings">SETTINGS</string>
+    <string name="open_settings">Settings</string>
+
 </resources>
