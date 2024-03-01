@@ -20,5 +20,6 @@
     <string name="change_delay">Change the delay between questions (in seconds)</string>
     <string name="new_delay">New delay</string>
     <string name="settings">SETTINGS</string>
+    <string name="open_settings">Settings</string>
 
 </resources>

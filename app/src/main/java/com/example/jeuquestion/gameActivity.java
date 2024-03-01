@@ -36,8 +36,6 @@ public class gameActivity extends AppCompatActivity {
     private long delay = 5000;
     Handler handler;
     Runnable questionRunnable = null;
-    private String newQuestion;
-    private boolean newQuestionAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +60,7 @@ public class gameActivity extends AppCompatActivity {
         player1Name = gameActivity.getStringExtra("player1Name");
         player2Name = gameActivity.getStringExtra("player2Name");
         newDelay = gameActivity.getIntExtra("newDelay", 5000);
-        newQuestion = gameActivity.getStringExtra("newQuestion");
-        newQuestionAnswer = gameActivity.getBooleanExtra("newQuestionAnswer", false);
+
 
         gameManager = new GameManager(this);
         delay = newDelay;

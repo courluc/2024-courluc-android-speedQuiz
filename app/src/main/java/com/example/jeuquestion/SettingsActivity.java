@@ -1,7 +1,6 @@
 package com.example.jeuquestion;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.jeuquestion.Models.Question;
 import com.example.jeuquestion.Models.SpeedGameSqLite;
-
-import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
     private ImageView BT_close;
@@ -23,7 +18,6 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText ET_addQuestion;
     private Button BT_addQuestion;
     private RadioButton RB_true;
-    private RadioButton RB_false;
     public Intent settingsActivity;
     private boolean answer = false;
     String newQuestion;
@@ -40,7 +34,6 @@ public class SettingsActivity extends AppCompatActivity {
         ET_changeDelay = findViewById(R.id.et_change_delay);
         BT_addQuestion = findViewById(R.id.bt_confirm_question);
         RB_true = findViewById(R.id.radio_button_1);
-        RB_false = findViewById(R.id.radio_button_2);
         settingsActivity = new Intent(SettingsActivity.this, MainActivity.class);
 
     }

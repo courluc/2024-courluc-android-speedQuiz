@@ -19,4 +19,5 @@
     <string name="change_delay">Modifier le délai entre les questions (en secondes)</string>
     <string name="new_delay">Nouveau délai</string>
     <string name="settings">PARAMETRES</string>
+    <string name="open_settings">Parametres</string>
 </resources>

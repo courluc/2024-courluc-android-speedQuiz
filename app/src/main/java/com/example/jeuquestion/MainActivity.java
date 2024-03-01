@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private String player1;
     private String player2;
     private int newDelay;
-    private String newQuestion = "";
-    private boolean newQuestionAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +32,6 @@ public class MainActivity extends AppCompatActivity {
         IV_menu = findViewById(R.id.menu_icon);
         Intent mainActivity = getIntent();
         newDelay = mainActivity.getIntExtra("newDelay", 5000);
-      //  newQuestion = mainActivity.getStringExtra("newQuestion");
-        //newQuestionAnswer = mainActivity.getBooleanExtra("newQuestionAnswer", false);
-
-
     }
 
     @Override
