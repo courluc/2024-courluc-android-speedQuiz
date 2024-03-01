@@ -10,4 +10,13 @@
     <string name="bt_restart">REJOUER</string>
     <string name="bt_menu">MENU</string>
     <string name="end_of_game">Voulez vous recommencer ?</string>
+    <string name="fermeture_param">Croix pour fermer la page</string>
+    <string name="add_question">AJOUTER UNE QUESTION</string>
+    <string name="answer">Réponse</string>
+    <string name="answer_true">Vrai</string>
+    <string name="answer_false">Faux</string>
+    <string name="confirm">Valider</string>
+    <string name="change_delay">Modifier le délai entre les questions (en secondes)</string>
+    <string name="new_delay">Nouveau délai</string>
+    <string name="settings">PARAMETRES</string>
 </resources>

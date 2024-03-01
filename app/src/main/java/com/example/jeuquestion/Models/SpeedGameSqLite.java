@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SpeedGameSqLite extends SQLiteOpenHelper {
-
     static String DB_NAME = "SpeedGame.db";
     static int DB_VERSION = 1;
 
@@ -28,6 +27,7 @@ public class SpeedGameSqLite extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO quiz VALUES (null, \"La devise des États-Unis est E Pluribus Unum\", 0)");
         db.execSQL("INSERT INTO quiz VALUES (null, \"Le Kilimandjaro est le plus haut sommet d'Afrique\", 1)");
         db.execSQL("INSERT INTO quiz VALUES (null, \"La guerre de Cent Ans a duré plus de 100 ans\", 1)");
+
     }
 
     @Override

@@ -37,6 +37,7 @@ public class GameManager {
         return listQuestion;
     }
 
+
     /**
      * Reprend la liste de questions
      * @return la liste de questions
@@ -93,7 +94,7 @@ public class GameManager {
      * Vérifie si l'on est à la fin de la liste
      * @return retourne si oui ou non nous sommes à la fin de la liste
      */
-    public boolean EndOfList(){
+    public boolean endOfList(){
         return indexQuestion >= getQuestions().size();
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.jeuquestion.Controllers.GameManager;
@@ -29,11 +30,14 @@ public class gameActivity extends AppCompatActivity {
     public int player2Points;
     public boolean buttonPressed = false;
     public boolean firstClick = true;
+    public int newDelay;
     GameManager gameManager;
     public ArrayList<Question> questionList;
-    private final long delay = 5000;
+    private long delay = 5000;
     Handler handler;
     Runnable questionRunnable = null;
+    private String newQuestion;
+    private boolean newQuestionAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,14 @@ public class gameActivity extends AppCompatActivity {
         Intent gameActivity = getIntent();
         player1Name = gameActivity.getStringExtra("player1Name");
         player2Name = gameActivity.getStringExtra("player2Name");
+        newDelay = gameActivity.getIntExtra("newDelay", 5000);
+        newQuestion = gameActivity.getStringExtra("newQuestion");
+        newQuestionAnswer = gameActivity.getBooleanExtra("newQuestionAnswer", false);
+
         gameManager = new GameManager(this);
+        delay = newDelay;
+        TV_player1Points.setText(String.valueOf(player1Points));
+        TV_player2Points.setText(String.valueOf(player2Points));
         questionList = gameManager.getQuestions();
     }
 
@@ -129,6 +140,7 @@ public class gameActivity extends AppCompatActivity {
         });
     }
 
+
     /**
      * Affiche une nouvelle question toutes les 5 secondes
      */
@@ -139,7 +151,7 @@ public class gameActivity extends AppCompatActivity {
         questionRunnable = new Runnable() {
             @Override
             public void run() {
-                if (gameManager.EndOfList()) {
+                if (gameManager.endOfList()) {
                     addPoints();
                     //code de fin de partie
                     handler.removeCallbacks(this);
@@ -169,7 +181,7 @@ public class gameActivity extends AppCompatActivity {
      * Affiche la question suivante si l'on est pas à la fin de la liste
      */
     public void displayQuestion(){
-        if (!gameManager.EndOfList()) {
+        if (!gameManager.endOfList()) {
             String currentQuestion = gameManager.nextQuestion(questionList);
             TV_player1Question.setText(currentQuestion);
             TV_player2Question.setText(currentQuestion);
@@ -210,18 +222,22 @@ public class gameActivity extends AppCompatActivity {
     public void addPoints(){
         //Test si l'index de la question est correct et si le bouton à été appuyé
         if (gameManager.getIndexQuestion() > 0 && !buttonPressed &&
-            gameManager.getIndexQuestion() <= questionList.size()) {
+                gameManager.getIndexQuestion() <= questionList.size()) {
 
             //Vérification de la réponse
             if (gameManager.getAnswer(questionList) == 0) {
                 player1Points++;
                 player2Points++;
-            } else if (player2Points > 0 && player1Points > 0) {
-                player1Points--;
-                player2Points--;
+            } else  {
+                if (player1Points > 0)
+                    player1Points--;
+                if (player2Points > 0)
+                    player2Points--;
             }
         }
         TV_player1Points.setText(String.valueOf(player1Points));
         TV_player2Points.setText(String.valueOf(player2Points));
     }
+
 }
+

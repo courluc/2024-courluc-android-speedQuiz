@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView IV_menu;
     private String player1;
     private String player2;
+    private int newDelay;
+    private String newQuestion = "";
+    private boolean newQuestionAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,15 @@ public class MainActivity extends AppCompatActivity {
         ET_addPlayer1 = findViewById(R.id.edit_add_player_1);
         ET_addPlayer2 = findViewById(R.id.edit_add_player_2);
         IV_menu = findViewById(R.id.menu_icon);
+        Intent mainActivity = getIntent();
+        newDelay = mainActivity.getIntExtra("newDelay", 5000);
+      //  newQuestion = mainActivity.getStringExtra("newQuestion");
+        //newQuestionAnswer = mainActivity.getBooleanExtra("newQuestionAnswer", false);
+
+
     }
 
-     @Override
+    @Override
     protected void onStart() {
         super.onStart();
         BT_newPlayer.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 //Affiche le bouton "new game" uniquement si du texte est présent dans les deux champs
                 player1 = ET_addPlayer1.getText().toString();
 
-                if (!(ET_addPlayer1.getText().toString().equals("")
-                        || ET_addPlayer2.getText().toString().equals(""))) {
+                if (!(ET_addPlayer1.getText().toString().isEmpty()
+                        || ET_addPlayer2.getText().toString().isEmpty())) {
                     BT_newGame.setVisibility(View.VISIBLE);
 
                 } else {
@@ -80,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 //Affiche le bouton "new game" uniquement si du texte est présent dans les deux champs
                 player2 = ET_addPlayer2.getText().toString();
 
-                if (!(ET_addPlayer1.getText().toString().equals("")
-                        || ET_addPlayer2.getText().toString().equals(""))) {
+                if (!(ET_addPlayer1.getText().toString().isEmpty()
+                        || ET_addPlayer2.getText().toString().isEmpty())) {
                     BT_newGame.setVisibility(View.VISIBLE);
 
                 } else {
@@ -92,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         IV_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent settingsActivity = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsActivity);
             }
         });
 
@@ -102,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent gameActivity = new Intent(MainActivity.this, gameActivity.class);
                 gameActivity.putExtra("player1Name", player1);
                 gameActivity.putExtra("player2Name", player2);
+                gameActivity.putExtra("newDelay", newDelay);
                 startActivity(gameActivity);
             }
         });
